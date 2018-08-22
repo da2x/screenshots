@@ -4,6 +4,8 @@
 
 ChromeUtils.defineModuleGetter(this, "AppConstants",
                                "resource://gre/modules/AppConstants.jsm");
+ChromeUtils.defineModuleGetter(this, "Services",
+                               "resource://gre/modules/Services.jsm");
 
 this.screenshots = class extends ExtensionAPI {
   getAPI() {
@@ -26,6 +28,12 @@ this.screenshots = class extends ExtensionAPI {
           //   'nightly-try' - nightly Try builds (QA may occasionally need to test with these)
           async getUpdateChannel() {
             return AppConstants.MOZ_UPDATE_CHANNEL;
+          },
+          async isHistoryEnabled() {
+            return Services.prefs.getBoolPref("places.history.enabled", true);
+          },
+          async isUploadDisabled() {
+            return Services.prefs.getBoolPref("extensions.screenshots.upload-disabled", false);
           },
         },
       },
